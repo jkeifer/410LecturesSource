@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+  <hhead>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="remark,remarkjs,markdown,slideshow,presentation" />
+    <meta name="description" content="A simple, in-browser, markdown-driven slideshow tool." />
+    <title>Remark</title>
+    <style type="text/css">
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body {
+        font-family: 'Droid Serif';
+      }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: 400;
+        margin-bottom: 0;
+      }
+      .remark-slide-content h1 { font-size: 3em; }
+      .remark-slide-content h2 { font-size: 2em; }
+      .remark-slide-content h3 { font-size: 1.6em; }
+      .footnote {
+        position: absolute;
+        bottom: 3em;
+      }
+      li p { line-height: 1.25em; }
+      .red { color: #fa0000; }
+      .large { font-size: 2em; }
+      a, a > code {
+        color: rgb(249, 38, 114);
+        text-decoration: none;
+      }
+      code {
+        -moz-border-radius: 5px;
+        -web-border-radius: 5px;
+        background: #e7e8e2;
+        border-radius: 5px;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      .remark-code-line-highlighted     { background-color: #373832; }
+      .pull-left {
+        float: left;
+        width: 47%;
+      }
+      .pull-right {
+        float: right;
+        width: 47%;
+      }
+      .pull-right ~ p {
+        clear: both;
+      }
+      #slideshow .slide .content code {
+        font-size: 0.8em;
+      }
+      #slideshow .slide .content pre code {
+        font-size: 0.9em;
+        padding: 15px;
+      }
+      .inverse {
+        background: #272822;
+        color: #777872;
+        text-shadow: 0 0 20px #333;
+      }
+      .inverse h1, .inverse h2 {
+        color: #f3f3f3;
+        line-height: 0.8em;
+      }
+
+      /* Slide-specific styling */
+      #slide-inverse .footnote {
+        bottom: 12px;
+        left: 20px;
+      }
+      #slide-how .slides {
+        font-size: 0.9em;
+        position: absolute;
+        top:  151px;
+        right: 140px;
+      }
+      #slide-how .slides h3 {
+        margin-top: 0.2em;
+      }
+      #slide-how .slides .first, #slide-how .slides .second {
+        padding: 1px 20px;
+        height: 90px;
+        width: 120px;
+        -moz-box-shadow: 0 0 10px #777;
+        -webkit-box-shadow: 0 0 10px #777;
+        box-shadow: 0 0 10px #777;
+      }
+      #slide-how .slides .first {
+        background: #fff;
+        position: absolute;
+        top: 20%;
+        left: 20%;
+        z-index: 1;
+      }
+      #slide-how .slides .second {
+        position: relative;
+        background: #fff;
+        z-index: 0;
+      }
+
+      /* Two-column layout */
+      .left-column {
+        color: #777;
+        width: 20%;
+        height: 92%;
+        float: left;
+      }
+        .left-column h2:last-of-type, .left-column h3:last-child {
+          color: #000;
+        }
+      .right-column {
+        width: 75%;
+        float: right;
+        padding-top: 1em;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+name: inverse
+layout: true
+class: center, middle, inverse
+---
+# Basic Review of Python
+---
+layout: false
+## Overview
+
+1. What is python?
+
+2. Basic data types
+
+3. Flow control
+
+4. Functions
+
+5. Classes
+---
+template: inverse
+## What is python?
+---
+## What is python?
+
+A high-level dynamic programming language with extensive GIS and data analysis applications
+
+- Interpreted
+
+- Dynamically typed
+
+- Uses whitespace
+
+- Cross-platform (caveat: windows seems to have less support)
+
+- Current version is 3.4.x, but most scientific and geospatial packages require 2.7.x
+---
+class: center, middle
+# DEMO
+---
+## What is python?
+
+Do you have my favorite fruit, a simple example:
+
+```py
+favorite = "peach"
+inventory = ["apple", "banana", "pear", "orange", "guava"]
+
+# iterate through list of fruit inventory
+for fruit in inventory:
+
+    # see if fruit is same as favorite
+    if fruit == favorite:  # test inline comment
+        
+        # .format is string method, replaces {} with fruit
+        print "You have my favorite fruit, {}.".format(fruit)
+        
+        # in this case, break our of loop to stop testing
+        break
+
+# notice indentation level: else goes with for loop, not if
+else:
+    print "You don’t have my favorite fruit."
+```
+---
+template: inverse
+## Basic Data Types
+---
+.left-column[
+  ## Basic Data Types
+  ### - Integers
+]
+.right-column[
+  Integers store positive and negative numbers without decimals:
+
+```py
+>>> type(5)
+<type 'int'>  # int means integer
+
+# ints support typical numerical operations:
+>>> (2 + 5) ** 2 - 10 * 8
+-31
+```
+]
+---
+.left-column[
+  ## Basic Data Types
+  ### - Integers
+  ### - Floats
+]
+.right-column[
+  Like integers, but used for decimal values:
+
+```py
+>>> type(13.45)
+<type 'float'>
+```
+
+  WARNING: Watch out for integer division:
+
+```py
+>>> type(17 / 5)
+<type 'int'>  # what? why?
+
+>>> 17 / 5
+3             # integer division drops decimals!
+
+>>> 17.0 / 5  # add a .0 to either side for
+3.4           # floating-point division
+``` 
+]
+---
+.left-column[
+  ## Basic Data Types
+  ### - Integers
+  ### - Floats
+  ### - Strings
+]
+.right-column[
+Strings hold text and other characters:
+
+```py
+>>> type("5 is a number.")
+<type 'str'>
+
+>>> 'this is also a string'
+
+>>> """as is this"""  # used for spanning multiple lines
+
+>>> "strings have special characters like \t, \n, \r..."
+
+>>> print "a \\t looks like \t."  # escape \ with another \
+'a \t looks like        .'        # \t is a tab character
+```
+]
+---
+.left-column[
+  ## Basic Data Types
+  ### - Integers
+  ### - Floats
+  ### - Strings
+]
+.right-column[
+String can also be concatenated and sliced:
+
+```py
+>>> s1 = "foo"
+
+>>> s2 = "bar"
+
+>>> concat = s1 + s2
+'foobar'
+
+>>> concat[4]  # get character at index 4 (the fifth letter)
+'a'
+
+>>> concat[0:2]  # slice from first character (0) TO third (2)
+'fo'
+
+>>> concat[:2]  # does the same thing
+'fo'
+
+>>> concat[2:]  # ommitting 2nd index goes to end
+'obar'
+
+>>> concat[-2:]  # can use negative indicies for slice
+'ar'
+```
+]
+---
+.left-column[
+  ## Basic Data Types
+  ### - Integers
+  ### - Floats
+  ### - Strings
+  ### - Lists
+]
+.right-column[
+Lists hold collections of items:
+
+```py
+>>> fruit = ["apple", "banana", "pear", "orange", "guava"]
+
+>>> things = ["car", 3, 5.32, 't']  # holds multiple types
+```
+
+Lists can also be concatenated and sliced:
+
+```py
+>>> l1 = [1, 2, 3, 4]
+
+>>> l2 = [5, 6, 7, 8]
+
+>>> l1[0] + l2[2:]
+[1, 7, 8]
+```
+
+Individual elements can be replaced as lists are *mutable*:
+
+```py
+>>> l1 = [1, 2, 3, 4]
+
+>>> l1[3] = 67
+
+>>> print l1
+[1, 2, 3, 67]
+```
+]
+---
+.left-column[
+  ## More Basic Data Types
+  ### - Tuples
+]
+.right-column[
+Tuples are like lists, but *immutable*:
+
+```py
+
+>>> t1 = (1, 2, 3, 4)
+
+>>> t2 = (5, 6, 7, 8)
+
+>>> t1 + t2
+(1, 2, 3, 4, 5, 6, 7, 8)
+
+>>> t1[:3]
+(1, 2, 3)
+
+>>> t1[2]
+3
+
+>>> t1[2] = 356
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: 'tuple' object does not support item assignment
+```
+]
+---
+.left-column[
+  ## More Basic Data Types
+  ### - Tuples
+  ### - Sets
+]
+.right-column[
+Sets are like tuples and lists, functioning as a collection of objects. However, sets can only contain one of any object:
+
+```py
+>>> l1 = [1, 2, 3, 4]
+
+>>> l1 * 3
+[1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4]
+
+>>> set(l1 * 3)
+set([4, 1, 2, 3])  # order is not maintained
+```
+] 
+---
+.left-column[
+  ## More Basic Data Types
+  ### - Tuples
+  ### - Sets
+  ### - Dictionaries
+]
+.right-column[
+Dictionaries are key-value stores. That is, look up a key to find its value:
+
+```py
+>>> d = {"John": 26, "Henry": 44, "Maria": 34, "Olaf": 13}
+
+>>> d["John"]
+26
+```
+
+Dictionaries can hold other dictionaries:
+
+```py
+>>> feature1 = {"name": "Library", "size": 5789}
+
+>>> feature2 = {"name": "School", "size": 15765}
+
+>>> features = {41: feature1, 93: feature2}
+
+>>> print features
+{41: {'name': 'Library', 'size': 5789},
+93: {'name': 'School', 'size': 15765}}
+
+>>> features[93]["name"]
+'School'
+```
+]
+---
+template: inverse
+## Flow Control
+---
+.left-column[
+## Flow Control
+- Conditional Statements
+]
+.right-column[
+
+]
+---
+While Loop
+For Loop
+
+    </textarea>
+    </textarea>
+    <script src="https://gnab.github.io/remark/downloads/remark-0.8.1.min.js"></script>
+    <script type="text/javascript">
+      var hljs = remark.highlighter.engine;
+    </script>
+    <script src="remark.language.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      var slideshow = remark.create({
+          highlightStyle: 'tomorrow-night-bright',
+          //highlightLanguage: 'remark'
+        }) ;
+    </script>
+  </body>
+</html>
