@@ -167,11 +167,13 @@ template: inverse
 
 The sys module has loads of functions and constants for getting system parameters. Most are irrelevant for many applications.
 
-Two stand out:
+Three stand out:
 
 - `sys.argv`
     
 - `sys.path`
+
+- `sys.exit`
 ---
 ## sys.argv
 
@@ -200,6 +202,22 @@ Two stand out:
 
 # now we can import a_function from myfile.py
 >>> from myfile import a_function
+```
+---
+## sys.exit
+
+- exits python
+
+- optional argument to return exit code
+
+    - return 0 for successful execution
+
+    - return any other value as an error code
+
+```py
+>>>import sys
+
+>>> sys.exit(0)
 ```
 ---
 class: middle, center
