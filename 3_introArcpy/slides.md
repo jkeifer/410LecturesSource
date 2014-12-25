@@ -149,4 +149,6 @@ template: inverse
 
 - Experiment
 
+- "Copy as python snippet" in ArcGIS
+
 - Read the docs.
