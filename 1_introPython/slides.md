@@ -36,6 +36,19 @@ A high-level dynamic programming language with extensive GIS and data analysis a
 
 - Current version is 3.4.x, but most scientific and geospatial packages require 2.7.x
 ---
+## What is python?
+
+As python is interpreted:
+
+- Can be written interactively using the python interpreter at the command line
+    - Open command line, type `python`
+
+- Can be run from .py files for longer or more complicated applications
+    - Write .py files in `IDLE` or `Spyder`
+
+- Can use a combination of these two
+    - `ipython notebook`
+---
 class: center, middle
 # DEMO
 ---
@@ -650,6 +663,3 @@ template: inverse
 # think a function is long-winded in the name?*
 >>> from arcpy import CreateFileGeodatabase_management as CreateFGDB
 ```
----
-template: inverse
-# (U+0004)

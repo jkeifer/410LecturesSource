@@ -1,0 +1,3 @@
+#!/bin/bash
+
+cat remarkTemplate_top.html $1/slides.md remarkTemplate_btm.html > $1/$1.html

@@ -122,7 +122,7 @@ template: inverse
 
 - glob is a simple but powerful tool for finding all files in a directory with names matching a given unix-style pattern
     
-- based on the (fnmatch module)[https://docs.python.org/2/library/fnmatch.html] operations:
+- based on the [fnmatch module](https://docs.python.org/2/library/fnmatch.html) operations:
 
     - \* is a wildcard character for multiple characters
 
@@ -203,6 +203,8 @@ Three stand out:
 # now we can import a_function from myfile.py
 >>> from myfile import a_function
 ```
+.footnote[.red[Note: python will import modules from the same   
+directory as a script without appending path]]
 ---
 ## sys.exit
 

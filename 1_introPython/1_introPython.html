@@ -22,13 +22,14 @@
       .remark-slide-content h2 { font-size: 2em; }
       .remark-slide-content h3 { font-size: 1.6em; }
       .footnote {
+        text-align: right;
         position: absolute;
         bottom: 3em;
         right: 5.5em;
         font-size: .8em;
       }
       li p { line-height: 1.25em; }
-      .red { color: #fa0000; }
+      .red { color: rgb(249, 38, 114) }
       .large { font-size: 2em; }
       a, a > code {
         color: rgb(249, 38, 114);
@@ -161,6 +162,19 @@ A high-level dynamic programming language with extensive GIS and data analysis a
 - Cross-platform (caveat: windows seems to have less support)
 
 - Current version is 3.4.x, but most scientific and geospatial packages require 2.7.x
+---
+## What is python?
+
+As python is interpreted:
+
+- Can be written interactively using the python interpreter at the command line
+    - Open command line, type `python`
+
+- Can be run from .py files for longer or more complicated applications
+    - Write .py files in `IDLE` or `Spyder`
+
+- Can use a combination of these two
+    - `ipython notebook`
 ---
 class: center, middle
 # DEMO
@@ -776,9 +790,6 @@ template: inverse
 # think a function is long-winded in the name?*
 >>> from arcpy import CreateFileGeodatabase_management as CreateFGDB
 ```
----
-template: inverse
-# (U+0004)
     </textarea>
     <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js"></script>
     <script type="text/javascript">

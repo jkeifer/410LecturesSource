@@ -22,13 +22,14 @@
       .remark-slide-content h2 { font-size: 2em; }
       .remark-slide-content h3 { font-size: 1.6em; }
       .footnote {
+        text-align: right;
         position: absolute;
         bottom: 3em;
         right: 5.5em;
         font-size: .8em;
       }
       li p { line-height: 1.25em; }
-      .red { color: #fa0000; }
+      .red { color: rgb(249, 38, 114) }
       .large { font-size: 2em; }
       a, a > code {
         color: rgb(249, 38, 114);
@@ -248,7 +249,7 @@ template: inverse
 
 - glob is a simple but powerful tool for finding all files in a directory with names matching a given unix-style pattern
     
-- based on the (fnmatch module)[https://docs.python.org/2/library/fnmatch.html] operations:
+- based on the [fnmatch module](https://docs.python.org/2/library/fnmatch.html) operations:
 
     - \* is a wildcard character for multiple characters
 
@@ -329,6 +330,8 @@ Three stand out:
 # now we can import a_function from myfile.py
 >>> from myfile import a_function
 ```
+.footnote[.red[Note: python will import modules from the same   
+directory as a script without appending path]]
 ---
 ## sys.exit
 
