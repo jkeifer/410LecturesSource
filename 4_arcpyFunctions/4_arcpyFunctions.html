@@ -134,11 +134,19 @@ class: center, middle, inverse
 layout: false
 ## Overview
 
-1. 
+1. `arcpy.Exists()`
 
-2. 
+2. `arcpy.Describe()`
 
-3. 
+3. `arcpy.SpatialReference` (class)
+
+4. `arcpy.Field` (class)
+
+5. Listing Data
+
+6. Creating Workspaces and Data
+
+7. Copying Existing Data
 ---
 template: inverse
 ## arcpy.Exists() 
@@ -167,6 +175,9 @@ True
 >>> arcpy.Exists(r"EastValley\Powerlines")
 True
 ```
+---
+template: inverse
+## arcpy.Describe()
 ---
 ## arcpy.Describe()
 
@@ -226,6 +237,9 @@ ribe field object object at 0x122BF9F8>, <geoprocessing describe field object ob
 ject at 0x122BF8A8>, <geoprocessing describe field object object at 0x122BFB00>,
  <geoprocessing describe field object object at 0x122BF728>]
 ```
+---
+template: inverse
+## arcpy.SpatialReference (class)
 ---
 ## arcpy.SpatialReference (class)
 
@@ -311,6 +325,9 @@ Precision"
 >>> sr5.name
 u'USA_Contiguous_Albers_Equal_Area_Conic_USGS_version'
 ```
+---
+template: inverse
+## arcpy.Field (class)
 ---
 ## arcpy.Field (class)
 
@@ -539,6 +556,133 @@ for gdb in geodatabases:
         numericfields.append((os.path.join(folder, gdb, fds, fc), field.name))
 
 print numericfields
+```
+---
+template: inverse
+## Creating Workspaces and Data
+---
+## Creating Workspaces and Data
+
+- Many desktop workflows require creating new workspaces and/or datasets
+
+    - Need a new GDB to store relevant layers
+
+    - Adding a new set of features to a database in a new feature class
+
+- Can't just right-click in catalog...
+---
+## Creating Workspaces and Data
+
+- [Tools are available in the toolbox](http://resources.arcgis.com/en/help/main/10.2/index.html#/A_quick_tour_of_geoprocessing_tool_references/002t0000000z000000/):
+
+    ![feature tools](Images/features.png)
+    ![workspace tools](Images/workspaces.png)
+---
+## Creating Workspaces and Data
+
+- We can call toolbox tools from python
+
+- Name of python function is `arcpy.` + `NameOfToolWithoutSpaces` + `_toolboxname`
+
+```py
+>>> import arcpy
+
+# call the create file gdb tool; out_version is optional
+>>> gdb = arcpy.CreateFlieGDB_management(r"C:\GIS\Data", "MyNewGDB",
+                                         out_version="CURRENT")
+
+# now we want a new feature class
+# need a spatial reference object first
+>>> sr = arcpy.SpatialReference(4326)  # EPSG 4326 is WGS84 GCS
+
+>>> arcpy.CreateFeatureClass_management(gdb, "NewFC", "POLYGON",
+                                        has_z="ENABLED",
+                                        spatial_reference=sr)
+```
+---
+template: inverse
+## Copying Existing Data
+---
+## Copying Existing Data
+
+- arcpy has multiple copy functions:
+
+    - `arcpy.Copy_management()`
+
+    - `arcpy.CopyFeatures_management()`
+
+    - `arcpy.CopyRaster_management()`
+
+    - `arcpy.CopyRasterCatalog_managmeent()`
+
+    - `arcpy.CopyRows_management()`
+
+- Choosing `Copy` vs. one of the others is not alway clear
+
+    - If you get an error, try a different approach
+---
+## Copying Existing Data: An Example
+
+**Problem:**
+
+We have a bunch of old data in shapefiles, organized in folders, that we want to get into geodatabases.
+Each folder in the current organizational structure should be reporduced as a new geodatabase.
+For each of the existing shapefiles we also need to create a new blank feature class 
+with the shapefile's attribute schema, but a new spatial reference (we have OR North NAD83 HARN in Intl Feet,
+we want it in Meters). The copied feature classes and new feature classes need to be separated in the new
+geodatabases for organizational purposes.
+
+What do we do?
+---
+## Copying Existing Data: An Example
+
+```py
+import os
+import arcpy
+from arcpy import env
+
+originaldata = [r"D:\Power\Lines",
+                r"D:\Power\Stations",
+                r"D:\Power\Transformers"]
+
+newlocation = r"D:\Power\GDBs"
+
+# WKID 2838 is OR N NAD83 HARN Meters
+newcrs = arcpy.SpatialReference(2838)
+
+# same as above, but Intl Feet
+oldcrs = arcpy.SpatialReference(2913)
+
+# continued on next slide
+```
+---
+## Copying Existing Data: An Example
+
+```py
+# iterate through existing folders
+for folder in originaldata: 
+  
+  # create new gdb and feature datasets
+  newgdbname = os.path.basename(folder)
+  newgdb = arcpy.CreateFileGDB_management(newlocation, newgdbname)
+  newfds = arcpy.CreateFeatureDataset_management(newgdb, "NEW", newcrs)
+  oldfds = arcpy.CreateFeatureDataset_management(newgdb, "OLD", oldcrs)
+
+  # get a list of fcs in existing gdb
+  env.workspace = folder
+  fcs = arcpy.ListFeatureClasses()
+
+  # iterate through fcs, copy and create new
+  for fc in fcs:
+    geometrytype = arcpy.Describe(fc).shapeType
+
+    # copy original fc to oldfds with name fc
+    copiedfc = arcpy.CopyFeatures_management(fc, os.path.join(oldfds, fc))
+    
+    # new fc with geometry type and template of copiedfc, SR is newcrs
+    arcpy.CreateFeatureClass_management(newfds, fc, geometrytype,
+                                        template=copiedfc,
+                                        spatial_reference=newcrs)
 ```
     </textarea>
     <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js"></script>
