@@ -42,31 +42,23 @@ template: inverse
     - Selection
 
     - Symbolization
+
+- Layers do not persist after a session is closed unless explicitly saved 
 ---
 ## Layers and Views in arcpy
 
 - Many types of layers/views:
 
     - Feature Layer
-
     - Image Server Layer
-
     - LAS Dataset Layer
-
     - Mosaic Layer
-
     - Query Layer
-
     - Query Table
-
     - Raster Catalog Layer
-
     - Raster Layer
-
     - Table View
-
     - WCS Layer
-
     - XY Event Layer
 ---
 ## Layers and Views in arcpy
@@ -92,35 +84,137 @@ template: inverse
 (map layer u'TreesLayer')
 ```
 ---
+## Layers and Views in arcpy
+
+- Most tools will accept a layer/view or a path
+
+    - In a tool GUI, when you click a drop-down to select a dataset, that is one of the open layers in the map document
+
+    - Can also browse for a dataset, which supplies a path
+
+- [Some tools work explicitly with layers](http://resources.arcgis.com/en/help/main/10.2/index.html#/An_overview_of_the_Layers_and_Table_Views_toolset/00170000006m000000/)
+---
 template: inverse
 ## SQL Queries
 ---
 ## SQL Queries
 
+- ArcGIS uses SQL as its query language, with some rather variable syntax:
+
+    - A field name in a file geodatabase is wrapped in `""`
+    
+    - Fields names in personal geodtabase are wrapped with `[]`
+    
+    - SDE doesn't have field name delimiters
+
+    - In SDE, table names are of the format    
+      `<database_name>.<schema>.<table_name>`
+
+    - Joined field names are similarly difficult:    
+      `<orig_tbl>.<field_name>`
 ---
 ## SQL Queries
 
+- Field name delimiters are easily dealt with:
 
+```py
+>>> import arcpy
+
+>>> data = r"C:\Data.gdb\Marshes"
+
+>>> query = "{state} = '{val1}' AND {area} >= {size}"\
+                .format(arcpy.AddFieldDelimiters(data, "ST"),
+                        "OR",
+                        arcpy.AddFireldDelimiters(data, "SHAPE_AREA"),
+                        10000)
+
+>>> query
+'"ST" = \'OR\' AND "SHAPE_AREA" >= 10000'
+```
+---
+## SQL Queries
+
+- SDE table names and joind fields are not easily dealt with
+
+- Two ideas:
+
+    - The code is specific to a given application, so hard code the table name: `datastore.DBO.CoffeeShops`
+
+    - Use the listing functions:     
+      `field_name = arcpy.ListFields(table, "*" + searchfield)`
 ---
 template: inverse
 ## Selecting Data
 ---
 ## Selecting Data
 
+- Four ways to select data:
+
+    - [Definition Query when making a feature layer/table view](http://resources.arcgis.com/en/help/main/10.2/index.html#/Make_Feature_Layer/00170000006p000000/)
+
+    - [By Attributes](http://resources.arcgis.com/en/help/main/10.2/index.html#/Select_Layer_By_Attribute/001700000071000000/)
+
+    - [By Location](http://resources.arcgis.com/en/help/main/10.2/index.html#/Select_Layer_By_Location/001700000072000000/)
+
+    - [Using `arcpy.Select_analysis()`](http://resources.arcgis.com/en/help/main/10.2/index.html#//000800000005000000)   
+      (Not to be confused with [`arcpy.SelectData_management()`](http://resources.arcgis.com/en/help/main/10.2/index.html#/Select_Data/0017000000v6000000/))
 ---
-## Selecting Data: By Attributes
+## Selecting Data
 
----
-## Selecting Data: By Location
+- Remember: definition queries, select by attributes, select by location do not create a permanent selection
 
----
-## Selecting Data: arcpy.Select_management()
+    - Use `arcpy.CopyFeatures_management()` to copy selected features to a new layer
 
+    - Use [`arcpy.DeleteFeatures_management()`](http://resources.arcgis.com/en/help/main/10.2/index.html#/Delete_Features/001700000036000000/)
+      to delete selected features from the original data
 
+        - Caution: this IS permanent
+
+        - Not to be confused with [`arcpy.Delete_management()`](http://resources.arcgis.com/en/help/main/10.2/index.html#/Delete/001700000052000000/)
+
+- Use [`arcpy.GetCount_management()`](http://resources.arcgis.com/en/help/main/10.2/index.html#/Get_Count/0017000000n7000000/)
+  to check if any features were selected
 ---
 template: inverse
 ## An Example Vector Workflow
 ---
 ## An Example Vector Workflow
 
+**Scenario**
+
+You work for a regional water provider which has a file
+geodatabase with data representing the water system. Your
+supervisor has asked you to create a dataset representing the
+area within 100 feet of any active main segment that has
+experienced a shear break leak.
 ---
+## An Example Vector Workflow
+
+```py
+import arcpy
+
+mains = r"C:\Data\Water.gdb\Mains"
+leaks = r"C:\Data\Water.gdb\Leaks"
+output = r"C:\Data\Analysis.gdb\Leak_areas"
+
+# def query to get active mains
+lyr_mains = arcpy.MakeFeatureLayer_management(mains,
+                                              "lyr_mains",
+                                              "\"Status\" = 'ACTIVE'")
+
+# def query to get shear breaks
+lyr_leaks = arcpy.MakeFeatureLayer_management(leaks,
+                                              "lyr_leaks",
+                                              "\"Type\" = 'SHEAR_BREAK'")
+
+# select by location to get leaky mains
+leaky_mains = arcpy.SelectLayerByLocation_management(lyr_mains,
+                                                     "INTERSECT",
+                                                     lyr_leaks)
+
+# if leaky mains, buffer and dissolve all buffers
+if int(arcpy.GetCount_management(leaky_mains).getOutput(0)):
+
+    # "#" in an arcpy function means use default
+    arcpy.Buffer_analysis(leaky_mains, output, "100 FEET", "#", "#", "ALL")
+```                      
