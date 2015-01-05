@@ -507,7 +507,7 @@ template: inverse
 We can put a bunch of this together:
 
 ```py
->>> FILE = "./file.txt."  # line are "first", "second", "third", etc.
+>>> FILE = "./file.txt"  # line are "first", "second", "third", etc.
 
 >>> def get_sixth_char(string):
 ...     """Returns 6th char in a string, unless IndexError or newline"""
@@ -558,14 +558,15 @@ template: inverse
 ```py
 class Person(object):
 
-    # __init is a required method to initialize class
+    # __init__ is a required method to initialize class
     def __init__(self, name, age, heightInches, weightPounds):
-        # these are all class properties
+        # these are properties
         self.name = name
         self.age = age
         self.heightInches = heightInches
         self.weightPounds = weightPounds
 
+    # this is the method Person.introduce()
     def introduce(self, othername=None):
         """Class method to introduce Person"""
         if othername:
@@ -604,7 +605,7 @@ Fred 52 73 189
 Hello Juan. My name is Fred.
 
 >>> fred.introduce()
-Hello, my name is Fred and I am 52 years old.
+Hello, I'm Fred and I am 52.
 
 >>> fred.getWeightInKilos()
 85.9090909090909
@@ -617,7 +618,8 @@ template: inverse
 
 - Functions and classes make code modular and reusable
 
-- Many programmers much smarter than you or me have already created frameworks and utilites solving many problems
+- Many programmers much smarter than you and me have
+  already created frameworks and utilites solving many problems
 
 - Why try to reinvent the wheel?
 
@@ -661,5 +663,5 @@ template: inverse
 >>> from arcpy import Buffer_analysis
 
 # think a function is long-winded in the name?*
->>> from arcpy import CreateFileGeodatabase_management as CreateFGDB
+>>> from arcpy import CreateFileFDB_management as CreateFGDB
 ```
