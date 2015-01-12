@@ -230,7 +230,7 @@ template: inverse
 
     - A field name in a file geodatabase is wrapped in `""`
     
-    - Fields names in personal geodtabase are wrapped with `[]`
+    - Fields names in personal geodatabase are wrapped with `[]`
     
     - SDE doesn't have field name delimiters
 
@@ -249,26 +249,31 @@ template: inverse
 
 >>> data = r"C:\Data.gdb\Marshes"
 
->>> query = "{state} = '{val1}' AND {area} >= {size}"\
-                .format(arcpy.AddFieldDelimiters(data, "ST"),
+>>> query = "{statefld} = '{val1}' AND {areafld} >= {size}"\
+                .format(arcpy.AddFieldDelimiters(data, "STATE"),
                         "OR",
                         arcpy.AddFireldDelimiters(data, "SHAPE_AREA"),
                         10000)
 
 >>> query
-'"ST" = \'OR\' AND "SHAPE_AREA" >= 10000'
+'"STATE" = \'OR\' AND "SHAPE_AREA" >= 10000'
 ```
 ---
 ## SQL Queries
 
-- SDE table names and joind fields are not easily dealt with
+- SDE table names and joined fields are not dealt with easily
 
-- Two ideas:
+- Three ideas:
 
-    - The code is specific to a given application, so hard code the table name: `datastore.DBO.CoffeeShops`
+    - The code is specific to a given application, so hard code the table name:
+      `datastore.DBO.CoffeeShops`
 
     - Use the listing functions:     
-      `field_name = arcpy.ListFields(table, "*" + searchfield)`
+      `field_name = arcpy.ListFields(table, "*" + search_field_name)`
+    
+    - Maybe enough information can be gathered to reconstruct the field name:
+      `field_name = table_name + "." + search_field_name)`
+
 ---
 template: inverse
 ## Selecting Data
@@ -290,7 +295,8 @@ template: inverse
 
 - Remember: definition queries, select by attributes, select by location do not create a permanent selection
 
-    - Use `arcpy.CopyFeatures_management()` to copy selected features to a new layer
+    - Use [`arcpy.CopyFeatures_management()`](http://resources.arcgis.com/en/help/main/10.2/index.html#//001700000035000000)
+      to copy selected features to a new layer
 
     - Use [`arcpy.DeleteFeatures_management()`](http://resources.arcgis.com/en/help/main/10.2/index.html#/Delete_Features/001700000036000000/)
       to delete selected features from the original data
