@@ -296,12 +296,12 @@ template: inverse
 - Remember: definition queries, select by attributes, select by location do not create a permanent selection
 
     - Use [`arcpy.CopyFeatures_management()`](http://resources.arcgis.com/en/help/main/10.2/index.html#//001700000035000000)
-      to copy selected features to a new layer
+      to create a new feature class from the selected features
 
     - Use [`arcpy.DeleteFeatures_management()`](http://resources.arcgis.com/en/help/main/10.2/index.html#/Delete_Features/001700000036000000/)
       to delete selected features from the original data
 
-        - Caution: this IS permanent
+        - Caution: this IS permanent -- it does not make a copy
 
         - Not to be confused with [`arcpy.Delete_management()`](http://resources.arcgis.com/en/help/main/10.2/index.html#/Delete/001700000052000000/)
 
