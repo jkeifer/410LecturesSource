@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+  <hhead>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="remark,remarkjs,markdown,slideshow,presentation" />
+    <meta name="description" content="A simple, in-browser, markdown-driven slideshow tool." />
+    <title>Remark</title>
+    <style type="text/css">
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body {
+        font-family: 'Droid Serif';
+      }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: 400;
+        margin-bottom: 0;
+      }
+      .remark-slide-content h1 { font-size: 3em; }
+      .remark-slide-content h2 { font-size: 2em; }
+      .remark-slide-content h3 { font-size: 1.6em; }
+      .footnote {
+        text-align: right;
+        position: absolute;
+        bottom: 3em;
+        right: 5.5em;
+        font-size: .8em;
+      }
+      li p { line-height: 1.25em; }
+      .red { color: rgb(249, 38, 114) }
+      .large { font-size: 2em; }
+      a, a > code {
+        color: rgb(249, 38, 114);
+        text-decoration: none;
+      }
+      code {
+        -moz-border-radius: 5px;
+        -web-border-radius: 5px;
+        background: #e7e8e2;
+        border-radius: 5px;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      .remark-code-line-highlighted     { background-color: #373832; }
+      .pull-left {
+        float: left;
+        width: 47%;
+      }
+      .pull-right {
+        float: right;
+        width: 47%;
+      }
+      .pull-right ~ p {
+        clear: both;
+      }
+      #slideshow .slide .content code {
+        font-size: 0.8em;
+      }
+      #slideshow .slide .content pre code {
+        font-size: 0.9em;
+        padding: 15px;
+      }
+      .inverse {
+        background: #272822;
+        color: #777872;
+        text-shadow: 0 0 20px #333;
+      }
+      .inverse h1, .inverse h2 {
+        color: #f3f3f3;
+        line-height: 0.8em;
+      }
+
+      /* Slide-specific styling */
+      #slide-inverse .footnote {
+        bottom: 12px;
+        left: 20px;
+      }
+      #slide-how .slides {
+        font-size: 0.9em;
+        position: absolute;
+        top:  151px;
+        right: 140px;
+      }
+      #slide-how .slides h3 {
+        margin-top: 0.2em;
+      }
+      #slide-how .slides .first, #slide-how .slides .second {
+        padding: 1px 20px;
+        height: 90px;
+        width: 120px;
+        -moz-box-shadow: 0 0 10px #777;
+        -webkit-box-shadow: 0 0 10px #777;
+        box-shadow: 0 0 10px #777;
+      }
+      #slide-how .slides .first {
+        background: #fff;
+        position: absolute;
+        top: 20%;
+        left: 20%;
+        z-index: 1;
+      }
+      #slide-how .slides .second {
+        position: relative;
+        background: #fff;
+        z-index: 0;
+      }
+
+      /* Two-column layout */
+      .left-column {
+        color: #777;
+        width: 20%;
+        height: 92%;
+        float: left;
+      }
+        .left-column h2:last-of-type, .left-column h3:last-child {
+          color: #000;
+        }
+      .right-column {
+        width: 75%;
+        float: right;
+        padding-top: 1em;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+name: inverse
+layout: true
+class: center, middle, inverse
+---
+# arcpy Geometry Objects
+---
+layout: false
+## arcpy Geometry Objects
+
+### Overview
+
+1. What is a Geometry object?
+
+2. Types of Geometry objects
+
+3. Some Geometry object properties and methods
+
+3. arcpy Point and Array objects
+
+<!---4. How to use Geometry object: an example-->
+---
+template: inverse
+## What is a geometry object?
+---
+## What is a geometry object?
+
+- Geometry objects are used to store geometries
+
+- Other things that store geometries:
+
+    - Feature classes
+
+    - [Well-know text (WKT) string](http://en.wikipedia.org/wiki/Well-known_text)
+
+    - Well-known binary (WKB; see above link)
+
+    - [GeoJSON](http://geojson.org/geojson-spec.html)
+---
+## What is a geometry object?
+
+- Geometry objects are im memory (not persistent)
+
+- They have properties and methods
+
+- They cannot store attributes
+---
+template: inverse
+## Types of Geometry objects
+---
+## Types of Geometry objects
+
+- arcpy.PointGeometry (not to be confused with Point)
+
+- arcpy.Polyline
+
+- arcpy.Polygon
+
+- arcpy.Muiltpoint
+
+- **Note:** different names, different types,
+  all the same properties and methods
+---
+template: inverse
+## Geometry object properties and methods
+---
+## Geometry object properties and methods
+
+- Object can return geometry in a number of other formats:
+
+    - .JSON (assuming ESRI JSON, not GeoJSON)
+
+    - .WKB
+
+    - .WKT
+---
+## Geometry object properties and methods
+
+- Geometric properties:
+
+    - .area, .length
+
+    - .centroid (always within the feature)
+
+    - .trueCentroid (feature center of gravity)
+
+    - .extent
+
+    - etc.
+
+- Others:
+
+    - .type (point, polyline, polygon?)
+
+    - .spatialReference
+---
+## Geometry object properties and methods
+
+- Many [spatial methods:](http://resources.arcgis.com/en/help/main/10.2/index.html#//018z00000070000000)
+
+    - .boundary()
+
+    - .buffer(distance)
+
+    - .clip(envelope)
+
+    - .contains(second_geometry)
+
+    - .distanceTo(other)
+
+    - .intersect(second_geometry)
+
+    - .projectAs(spatial_reference, {transformation name})
+---
+template: inverse
+## arcpy Point and Array objects
+---
+## arcpy Point and Array object
+
+- Used to construct features
+
+- Used to hold data in a "dummy" container
+
+    - requires less resources and is faster
+---
+## arcpy Point and Array objects
+
+- [Point objects](http://resources.arcgis.com/en/help/main/10.2/index.html#/Point/018z0000006t000000/)
+  are used to hold coordinates
+
+    - Have X, Y, Z, M, and ID
+
+    - No spatial reference attribute
+
+    - Some limited methods   
+      (I am unsure if the documentation is really accurate)
+
+    - Points are the basic building blocks of all the geometry classes
+---
+## arcpy Point and Array objects
+
+- [Array objects](http://resources.arcgis.com/en/help/main/10.2/index.html#/Array/018z0000006n000000/)
+  hold a collection of Point objects to be used to construct a geometry
+
+- Just a container
+    </textarea>
+    <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js"></script>
+    <script type="text/javascript">
+      var hljs = remark.highlighter.engine;
+    </script>
+    <script src="remark.language.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      var slideshow = remark.create({
+          highlightStyle: 'tomorrow-night-bright',
+          //highlightLanguage: 'remark'
+        }) ;
+    </script>
+  </body>
+</html>
+
