@@ -7,7 +7,7 @@ class: center, middle, inverse
 layout: false
 ## arcpy Geometry Objects
 
-# Overview
+### Overview
 
 1. What is a Geometry object?
 
@@ -17,7 +17,7 @@ layout: false
 
 3. arcpy Point and Array objects
 
-4. How to use Geometry object: an example
+<!---4. How to use Geometry object: an example-->
 ---
 template: inverse
 ## What is a geometry object?
@@ -113,3 +113,32 @@ template: inverse
 ---
 template: inverse
 ## arcpy Point and Array objects
+---
+## arcpy Point and Array object
+
+- Used to construct features
+
+- Used to hold data in a "dummy" container
+
+    - requires less resources and is faster
+---
+## arcpy Point and Array objects
+
+- [Point objects](http://resources.arcgis.com/en/help/main/10.2/index.html#/Point/018z0000006t000000/)
+  are used to hold coordinates
+
+    - Have X, Y, Z, M, and ID
+
+    - No spatial reference attribute
+
+    - Some limited methods   
+      (I am unsure if the documentation is really accurate)
+
+    - Points are the basic building blocks of all the geometry classes
+---
+## arcpy Point and Array objects
+
+- [Array objects](http://resources.arcgis.com/en/help/main/10.2/index.html#/Array/018z0000006n000000/)
+  hold a collection of Point objects to be used to construct a geometry
+
+- Just a container
