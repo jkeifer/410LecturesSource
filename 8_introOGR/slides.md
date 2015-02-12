@@ -173,9 +173,9 @@ template: inverse
 - Use patterns! Look for examples and emulate what they do
   to fit your application.
     
-    - (GDAL Python Cookbook](http://pcjericks.github.io/py-gdalogr-cookbook/index.html)
+    - [GDAL Python Cookbook](http://pcjericks.github.io/py-gdalogr-cookbook/index.html)
 
-    - (Geoprocessing with python using Open Source GIS](http://www.gis.usu.edu/~chrisg/python/2009/)
+    - [Geoprocessing with python using Open Source GIS](http://www.gis.usu.edu/~chrisg/python/2009/)
 
 - Read [the python Gotchas](http://trac.osgeo.org/gdal/wiki/PythonGotchas)
 
@@ -190,7 +190,7 @@ template: inverse
 ```py
 from osgeo import ogr
 
-# Note that you can `import ogr` directly, but that is depricated
+# Note that you can import ogr directly, but that is depricated
 ```
 ---
 ## Getting Started with OGR
@@ -273,13 +273,17 @@ layer_defn = a_layer.GetFieldDefn()
 # need to iterate through fields?
 # use the definition object
 for field_index in xrange(layer_defn.GetFieldCount()):
+    # we can get the field name from the field definition
     fieldname = layer_defn.GetFieldDefn(field_index).GetName()
+    
+    # we can also get the values of fields
     feature.GetFieldAsString(field_index)
     feature.GetFieldAsInteger(field_name)
+```
 ---
 ## Getting Started with OGR
 
-- Want a the geometry of a feature?
+- Want the geometry of a feature?
 
 ```py
 geom = feature.GetGeometryRef()
@@ -324,7 +328,7 @@ if os.path.exists(path_to_shapefile):
 ---
 ## Getting Started with OGR
 
-- Add fields to a layer
+- Add fields to a layer (note: fields cannot be added to a layer that already contains features)
 
 ```py
 # create a new field
@@ -337,7 +341,7 @@ field_defn.SetWidth(25)
 layer.CreateField(field_defn)
 
 # want to copy a field def from an existing layer?
-layer_defn = original_layer.GetFieldDefn()
+layer_defn = original_layer.GetLayerDefn()
 field_defn = layer_defn.GetFieldDefn(field_name_or_index)
 new_layer.CreateField(field_defn)
 ```
