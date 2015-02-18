@@ -260,7 +260,7 @@ result = datasrc.ExecuteSQL("SELECT * FROM sites WHERE cat = 5 ORDER BY id desc"
 for feature in result:
     # do something with feature
 
-dsSites.ReleaseResultSet(result)
+datasrc.ReleaseResultSet(result)
 ```
 ---
 template: inverse
