@@ -242,6 +242,27 @@ layer.GetFeatureCount()
 # 1045
 ```
 ---
+## Attribute Filtering
+
+- Advanced queries can use the `ExecuteSQL()` method of a data source
+
+    - Returns a "virtual" layer called a results set
+
+    - See [the docs for in-depth info](http://gdal.org/ogr_sql.html)
+
+- Use `ReleaseResultSet(result_layer)` when finished with a results set
+
+- `SetAttributeFilter()` is essentially just the `WHERE` of an executed SQL expression 
+
+```py
+result = datasrc.ExecuteSQL("SELECT * FROM sites WHERE cat = 5 ORDER BY id desc")
+
+for feature in result:
+    # do something with feature
+
+dsSites.ReleaseResultSet(result)
+```
+---
 template: inverse
 ## Spatial Filtering
 ---
