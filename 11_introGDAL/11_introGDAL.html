@@ -355,8 +355,8 @@ template: inverse
 - What if we read each pixel one at a time?
 
 ```py
-rows = dataset.RasterXSize
-cols = dataset.RasterYSize
+rows = dataset.RasterYSize
+cols = dataset.RasterXSize
 
 for row in xrange(rows):
     for col in xrange(cols):
@@ -376,8 +376,8 @@ for row in xrange(rows):
 - How about by columns?
 
 ```py
-cols = dataset.RasterYSize
-rows = dataset.RasterXSize
+rows = dataset.RasterYSize
+cols = dataset.RasterXSize
 
 for col in xrange(cols):
     data = band.ReadAsArray(col, 0, 1, rows)
@@ -389,8 +389,8 @@ for col in xrange(cols):
 - How about by rows?
 
 ```py
-cols = dataset.RasterYSize
-rows = dataset.RasterXSize
+rows = dataset.RasterYSize
+cols = dataset.RasterXSize
 
 for row in xrange(rows):
     data = band.ReadAsArray(0, row, cols, 1)
@@ -414,14 +414,16 @@ for row in xrange(rows):
 
 ```py
 # arbitrary block size to illustrate concept
+# first number is columns in block
+# second number is rows in block
 blocksize = [3, 3]
 
-cols = dataset.RasterYSize
-rows = dataset.RasterXSize
+rows = dataset.RasterYSize
+cols = dataset.RasterXSize
 
-for row in xrange(0, rows, blocksize[0]):
+for row in xrange(0, rows, blocksize[1]):
     if row + blocksize < rows:
-        row_read_size = blocksize[0]
+        row_read_size = blocksize[1]
     else:
         row_read_size = rows - row
     
@@ -437,25 +439,25 @@ for row in xrange(0, rows, blocksize[0]):
 # get the blocksize from the band
 blocksize = band.GetBlockSize()  # returns a list
 
-cols = dataset.RasterYSize
-rows = dataset.RasterXSize
+rows = dataset.RasterYSize
+cols = dataset.RasterXSize
 
 # iterate through rows of blocks
-for row in xrange(0, rows, blocksize[0]):
+for row in xrange(0, rows, blocksize[1]):
     if row + blocksize < rows:
-        row_read_size = blocksize[0]
+        row_read_size = blocksize[1]
     else:
         row_read_size = rows - row
     
     # iterate through columns of blocks
-    for col in xrange(0, cols, blocksize[1]):
+    for col in xrange(0, cols, blocksize[0]):
         if col + blocksize[1] < cols:
-            col_read_size = blocksize[1]
+            col_read_size = blocksize[0]
         else:
             col_read_size = cols - col
         
         data = band.ReadAsArray(col, row, col_read_size, row_read_size)
-        # do something with the block row data here
+        # do something with the block data here
 ```
 ---
 template: inverse
