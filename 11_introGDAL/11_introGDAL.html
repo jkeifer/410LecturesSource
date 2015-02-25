@@ -444,14 +444,14 @@ cols = dataset.RasterXSize
 
 # iterate through rows of blocks
 for row in xrange(0, rows, blocksize[1]):
-    if row + blocksize < rows:
+    if row + blocksize[1] < rows:
         row_read_size = blocksize[1]
     else:
         row_read_size = rows - row
     
     # iterate through columns of blocks
     for col in xrange(0, cols, blocksize[0]):
-        if col + blocksize[1] < cols:
+        if col + blocksize[0] < cols:
             col_read_size = blocksize[0]
         else:
             col_read_size = cols - col
